@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "./NavBar";
 import { Switch, Route } from "react-router-dom";
 
+
 function App() {
-  return <h1>Project Client</h1>;
+  return (
+    <NavBar />
+  )
 }
 
 export default App;

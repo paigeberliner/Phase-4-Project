@@ -1,0 +1,44 @@
+.nav-bar {
+    display: flex;
+    justify-content: space-between; /* Distributes space between left and right items */
+    align-items: center; /* Vertically centers items */
+    padding: 10px 20px; /* Padding for spacing around the nav bar */
+    background-color: #f8f9fa; /* Light background color */
+    border-bottom: 2px solid #ddd; /* Subtle border for separation */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: #333; /* Darker text color for better readability */
+}
+
+.nav-bar .left-items, .nav-bar .right-items {
+    display: flex;
+    align-items: center; /* Vertically centers items within each group */
+}
+
+.nav-bar .left-items a, .nav-bar .right-items a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Color for links */
+    margin: 0 15px; /* Spacing between items */
+}
+
+.nav-bar .left-items a:hover, .nav-bar .right-items a:hover {
+    color: #333; /* Darker color on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
+.nav-bar .logo {
+    font-size: 1.5em; /* Larger font size for logo */
+    margin-right: 20px; /* Spacing between logo and other left items */
+}
+
+.nav-bar .menu-item {
+    margin: 0 10px; /* Spacing between menu items */
+}
+
+.nav-bar .menu-item:first-child {
+    margin-left: 0; /* Remove left margin from the first item */
+}
+
+.nav-bar .menu-item:last-child {
+    margin-right: 0; /* Remove right margin from the last item */
+}
