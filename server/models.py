@@ -7,7 +7,6 @@ class User(db.Model):
     first_name = db.Column(db.String) 
     last_name = db.Column(db.String)
     created_at = db.Column(db.DateTime)
-    
 
 class AvailableClass(db.Model):
     __tablename__ = 'available_classes'
@@ -18,7 +17,7 @@ class AvailableClass(db.Model):
     class_duration = db.Column(db.Integer)
     address = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('Users', backref='classes')
+    user = db.relationship('User', backref='classes')
 
 class ClaimedClass(db.Model):
     __tablename__ = 'claimed_classes'
@@ -26,5 +25,5 @@ class ClaimedClass(db.Model):
     available_class_id = db.Column(db.Integer, db.ForeignKey('available_classes.id'))
     claimed_time = db.Column(db.DateTime) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    available_class = db.relationship('AvailableClasses', backref='claimed_classes')
-    user = db.relationship('Users', backref='claimed_classes')
+    available_class = db.relationship('AvailableClass', backref='claimed_classes')
+    user = db.relationship('User', backref='claimed_classes')
