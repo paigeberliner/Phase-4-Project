@@ -1,15 +1,15 @@
 from config import db
 
-class Users(db.Model): 
+class User(db.Model): 
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String) 
     first_name = db.Column(db.String) 
     last_name = db.Column(db.String)
     created_at = db.Column(db.DateTime)
-    temp_field = db.Column(db.String) 
+    
 
-class AvailableClasses(db.Model):
+class AvailableClass(db.Model):
     __tablename__ = 'available_classes'
     id = db.Column(db.Integer, primary_key=True)
     class_name = db.Column(db.String) 
@@ -20,7 +20,7 @@ class AvailableClasses(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('Users', backref='classes')
 
-class ClaimedClasses(db.Model):
+class ClaimedClass(db.Model):
     __tablename__ = 'claimed_classes'
     id = db.Column(db.Integer, primary_key=True)
     available_class_id = db.Column(db.Integer, db.ForeignKey('available_classes.id'))
