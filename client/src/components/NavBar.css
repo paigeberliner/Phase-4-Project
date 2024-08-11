@@ -3,11 +3,11 @@
     display: flex;
     justify-content: space-between; /* Distributes space between left and right items */
     align-items: center; /* Vertically centers items */
-    padding: 10px 20px; /* Padding for spacing around the nav bar */
-    background-color: #f8f9fa; /* Light background color */
-    border-bottom: 2px solid #ddd; /* Subtle border for separation */
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    padding: 12px 24px; /* Slightly increased padding */
+    background-color: #ffffff; /* White background */
+    border-bottom: 1px solid #e0e0e0; /* Subtle border for separation */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    font-weight: 500; /* Slightly lighter font weight */
     color: #333; /* Darker text color for better readability */
   }
   
@@ -23,9 +23,10 @@
   .nav-bar .right-items button {
     text-decoration: none; /* Remove underline from links */
     color: #333; /* Color for links */
-    margin: 0 15px; /* Spacing between items */
+    margin: 0 12px; /* Spacing between items */
     background: none; /* Remove background for links */
     border: none; /* Remove border for links */
+    transition: color 0.3s ease; /* Smooth color transition */
   }
   
   /* Link and Button Hover States */
@@ -37,63 +38,76 @@
   
   /* Menu Items */
   .menu-item {
-    padding: 10px 20px;
+    padding: 12px 24px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #007bff; /* Primary color */
     color: #fff;
     border: none;
-    border-radius: 5px;
-    margin: 0 10px; /* Spacing between menu items */
+    border-radius: 6px; /* Slightly larger border radius */
+    margin: 0 8px; /* Reduced spacing between menu items */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
   }
   
   .menu-item:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker color on hover */
   }
   
   /* Greeting and Messages */
   .greeting {
-    margin-top: 10px;
+    margin-top: 8px; /* Reduced margin */
     color: #343a40;
-    font-weight: bold;
+    font-weight: 500; /* Slightly lighter font weight */
   }
   
   .message {
-    margin: 10px;
-    color: red;
-    font-weight: bold;
+    margin: 8px;
+    color: #dc3545; /* Bootstrap red color */
+    font-weight: 500;
   }
   
   /* Login Form */
   .login-form {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px; /* Modern rounded corners */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   }
   
   .login-form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Increased spacing */
+    font-weight: 500;
+    color: #555; /* Slightly lighter color for labels */
   }
   
   .login-form input {
-    margin-bottom: 10px;
-    padding: 8px;
-    width: 90%;
+    margin-bottom: 12px; /* Increased spacing */
+    padding: 10px;
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    border: 1px solid #ddd; /* Light border color */
+    border-radius: 6px; /* Slightly larger border radius */
+    font-size: 1em; /* Consistent font size */
+    transition: border-color 0.3s ease; /* Smooth border color transition */
+  }
+  
+  .login-form input:focus {
+    border-color: #007bff; /* Highlight border color on focus */
   }
   
   .login-form button {
-    padding: 10px 15px;
-    background-color: #007bff;
+    padding: 12px 20px;
+    background-color: #007bff; /* Primary button color */
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px; /* Slightly larger border radius */
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth background color transition */
   }
   
   .login-form button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker color on hover */
   }
   
   /* Logout Section */

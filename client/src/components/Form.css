@@ -1,59 +1,63 @@
 /* Container for the form */
 .form-container {
-    width: 100%;
-    max-width: 400px; /* Restrict the maximum width */
-    margin: 20px auto; /* Center horizontally and add vertical spacing */
-    padding: 20px;
-    background-color: #fff; /* White background for the form */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Font family */
-  }
-  
-  /* Style for form heading */
-  .form-container h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333; /* Darker text color */
-  }
-  
-  /* Style for each form group */
-  .form-group {
-    margin-bottom: 15px; /* Spacing between form fields */
-  }
-  
-  /* Style for labels */
-  .form-group label {
-    display: block;
-    margin-bottom: 5px; /* Space between label and input */
-    font-weight: bold;
-    color: #555; /* Slightly lighter color for labels */
-  }
-  
-  /* Style for input fields */
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd; /* Light border color */
-    border-radius: 4px; /* Rounded corners for inputs */
-    font-size: 1em; /* Consistent font size */
-  }
-  
-  /* Style for the submit button */
-  .button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #4f6a95; /* Primary button color */
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #0c2b43; /* Darker color on hover */
-  }
-  
+  width: 100%;
+  max-width: 480px; /* Increased maximum width */
+  margin: 20px auto; /* Center horizontally and add vertical spacing */
+  padding: 24px;
+  background-color: #ffffff; /* White background for the form */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+}
+
+/* Style for form heading */
+.form-container h2 {
+  font-size: 1.75em; /* Larger font size */
+  margin-bottom: 24px; /* Increased spacing */
+  text-align: center;
+  color: #333; /* Darker text color */
+}
+
+/* Style for each form group */
+.form-group {
+  margin-bottom: 20px; /* Increased spacing */
+}
+
+/* Style for labels */
+.form-group label {
+  display: block;
+  margin-bottom: 8px; /* Space between label and input */
+  font-weight: 500; /* Slightly lighter font weight */
+  color: #555; /* Slightly lighter color for labels */
+}
+
+/* Style for input fields */
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd; /* Light border color */
+  border-radius: 6px; /* Slightly larger border radius */
+  font-size: 1em; /* Consistent font size */
+  transition: border-color 0.3s ease; /* Smooth border color transition */
+}
+
+.form-group input:focus {
+  border-color: #007bff; /* Highlight border color on focus */
+}
+
+/* Style for the submit button */
+.button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4f6a95; /* Primary button color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.button:hover {
+  background-color: #0c2b43; /* Darker color on hover */
+}
