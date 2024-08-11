@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './Form.css';
 
-const Form = () => {
+const Form = ({ onItemFormSubmit }) => {
   const [studioName, setStudioName] = useState("");
   const [studioLocation, setStudioLocation] = useState("");
   const [className, setClassName] = useState("");
@@ -11,15 +11,21 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      studioName,
-      studioLocation,
-      className,
-      classDuration,
-      classDate,
-      classTime
-    });
+
+    // Combine date and time into a single datetime string
+    const combinedDateTime = classDate && classTime ? `${classDate}T${classTime}` : null;
+
+    const newClass = {
+      studio_name: studioName,
+      studio_location: studioLocation,
+      class_name: className,
+      class_duration: classDuration,
+      class_date: combinedDateTime, // Send combined datetime to backend
+      class_time: combinedDateTime // Optionally include this if your backend needs it separately
+    }
+
+    onItemFormSubmit(newClass);
+    console.log(newClass);
   };
 
   return (

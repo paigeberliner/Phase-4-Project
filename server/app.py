@@ -71,7 +71,7 @@ def workout_classes():
                 class_date=datetime.fromisoformat(data.get('class_date')) if data.get('class_date') else None,
                 class_time=datetime.fromisoformat(data.get('class_time')) if data.get('class_time') else None,
                 created_at=datetime.utcnow()  # Set to current time
-            )
+)
             db.session.add(new_workout_class)
             db.session.commit()
 
