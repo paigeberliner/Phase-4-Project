@@ -21,5 +21,5 @@ class WorkoutClass (db.Model):
     class_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime)
 
-    
+
 

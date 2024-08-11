@@ -42,3 +42,36 @@
 .nav-bar .menu-item:last-child {
     margin-right: 0; /* Remove right margin from the last item */
 }
+
+.login-form {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .login-form input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 90%;
+  }
+  
+  .login-form button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-form button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NavBar.css'; 
 
-const NavBar = () => {
+const NavBar = ({ onLoginClick, showLogin }) => {
   return (
     <div className="nav-bar">
       <div className="left-items">
@@ -10,7 +10,9 @@ const NavBar = () => {
         <a href="/profile" className="menu-item">Profile</a>
       </div>
       <div className="right-items">
-        <a href="/login" className="menu-item">Login</a>
+        <button className="menu-item" onClick={onLoginClick}>
+          {showLogin ? 'Cancel' : 'Login'}
+        </button>
       </div>
     </div>
   );
