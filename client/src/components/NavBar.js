@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavBar.css'; 
 
-const NavBar = ({ onLoginClick, showLogin, userFirstName, message }) => {
+const NavBar = ({ onLoginClick, showLogin, userFirstName, message, isLoggedIn, onLogout }) => {
   return (
     <div className="nav-bar">
       <div className="left-items">
@@ -10,8 +10,13 @@ const NavBar = ({ onLoginClick, showLogin, userFirstName, message }) => {
         <a href="/profile" className="menu-item">Profile</a>
       </div>
       <div className="right-items">
-        {userFirstName ? (
-          <span className="menu-item">Hello, {userFirstName}</span>
+        {isLoggedIn ? (
+          <div className="logout-section">
+            <button className="menu-item" onClick={onLogout}>
+              Logout
+            </button>
+            {userFirstName && <div className="greeting">Hello, {userFirstName}!</div>}
+          </div>
         ) : (
           <button className="menu-item" onClick={onLoginClick}>
             {showLogin ? 'Cancel' : 'Login'}

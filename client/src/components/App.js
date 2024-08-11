@@ -9,6 +9,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [userFirstName, setUserFirstName] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5555/workoutclasses")
@@ -43,6 +44,7 @@ function App() {
         if (user) {
           setUserFirstName(user.first_name);
           setMessage('');
+          setIsLoggedIn(true);
         } else {
           setUserFirstName('');
           setMessage('Not a user - sign up');
@@ -55,6 +57,12 @@ function App() {
       });
   };
 
+  const handleLogout = () => {
+    setUserFirstName('');
+    setIsLoggedIn(false);
+    setMessage('');
+  };
+
   return (
     <>
       <NavBar 
@@ -62,9 +70,11 @@ function App() {
         showLogin={showLogin} 
         userFirstName={userFirstName}
         message={message}
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
       />
       {showLogin && <LoginForm onLogin={handleLogin} />}
-      {userFirstName && <div className="greeting">Hello, {userFirstName}!</div>}
+      {userFirstName && !isLoggedIn && <div className="greeting">Hello, {userFirstName}!</div>}
       {message && <div className="message">{message}</div>}
       <Form onItemFormSubmit={onItemFormSubmit} />
       {workoutClasses.map(workoutClass => (
