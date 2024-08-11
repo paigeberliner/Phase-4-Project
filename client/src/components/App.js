@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import Form from './Form';
 import Container from './Container';
-import LoginForm from './LoginForm'; // Import LoginForm component
+import LoginForm from './LoginForm';
 
 function App() {
   const [workoutClasses, setWorkoutClasses] = useState([]);
-  const [showLogin, setShowLogin] = useState(false); // State to manage login form visibility
+  const [showLogin, setShowLogin] = useState(false);
+  const [userFirstName, setUserFirstName] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetch("http://localhost:5555/workoutclasses")
@@ -34,15 +36,36 @@ function App() {
   };
 
   const handleLogin = (email) => {
-    console.log("Login with email:", email);
-    // Add logic for email validation and authentication
-    setShowLogin(false); // Hide the login form after submission
+    fetch("http://127.0.0.1:5555/users")
+      .then(response => response.json())
+      .then(users => {
+        const user = users.find(user => user.email === email);
+        if (user) {
+          setUserFirstName(user.first_name);
+          setMessage('');
+        } else {
+          setUserFirstName('');
+          setMessage('Not a user - sign up');
+        }
+        setShowLogin(false); // Hide the login form after checking
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        setMessage('Error checking user - try again');
+      });
   };
 
   return (
     <>
-      <NavBar onLoginClick={handleLoginClick} showLogin={showLogin} />
+      <NavBar 
+        onLoginClick={handleLoginClick} 
+        showLogin={showLogin} 
+        userFirstName={userFirstName}
+        message={message}
+      />
       {showLogin && <LoginForm onLogin={handleLogin} />}
+      {userFirstName && <div className="greeting">Hello, {userFirstName}!</div>}
+      {message && <div className="message">{message}</div>}
       <Form onItemFormSubmit={onItemFormSubmit} />
       {workoutClasses.map(workoutClass => (
         <Container

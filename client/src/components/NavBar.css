@@ -75,3 +75,15 @@
     background-color: #0056b3;
   }
   
+  .greeting {
+    margin: 10px;
+    color: green;
+    font-weight: bold;
+  }
+  
+  .message {
+    margin: 10px;
+    color: red;
+    font-weight: bold;
+  }
+  
