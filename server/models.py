@@ -10,7 +10,7 @@ class User(db.Model):
 
 
 class WorkoutClass (db.Model): 
-    __table_name__ = 'workout_classes'
+    __tablename__ = 'workoutclasses'
 
     id = db.Column(db.Integer, primary_key=True) 
     studio_name = db.Column(db.String)
