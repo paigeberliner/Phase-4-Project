@@ -1,41 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
-import Form from './Form';
+import { Form } from './Form';
 import Container from './Container';
 import LoginForm from './LoginForm';
 
 function App() {
-  const [workoutClasses, setWorkoutClasses] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
   const [userFirstName, setUserFirstName] = useState('');
   const [message, setMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [workoutClasses, setWorkoutClasses] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5555/workoutclasses")
-      .then(response => response.json())
-      .then(data => setWorkoutClasses(data))
-      .catch(error => console.error("Error fetching data:", error));
-  }, []);
-
-  const onItemFormSubmit = (classObj) => {
-    fetch("http://localhost:5555/workoutclasses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(classObj),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json();
-      })
-      .then((data) => setWorkoutClasses([...workoutClasses, data]))
-      .catch((error) => console.error("Error:", error));
+  // Function to fetch and update workout classes
+  const updateWorkoutClasses = () => {
+    fetch("/workoutclasses")
+      .then((res) => res.json())
+      .then((data) => setWorkoutClasses(data))
+      .catch((error) => console.error("Error fetching workout classes:", error));
   };
 
+  // Handle login click to show/hide login form
   const handleLoginClick = () => {
     setShowLogin(!showLogin);
   };
 
+  // Handle user login
   const handleLogin = (email) => {
     fetch("http://127.0.0.1:5555/users")
       .then(response => response.json())
@@ -57,11 +46,17 @@ function App() {
       });
   };
 
+  // Handle user logout
   const handleLogout = () => {
     setUserFirstName('');
     setIsLoggedIn(false);
     setMessage('');
   };
+
+  // Fetch workout classes on component mount
+  useEffect(() => {
+    updateWorkoutClasses();
+  }, []);
 
   return (
     <>
@@ -76,7 +71,7 @@ function App() {
       {showLogin && <LoginForm onLogin={handleLogin} />}
       {userFirstName && !isLoggedIn && <div className="greeting">Hello, {userFirstName}!</div>}
       {message && <div className="message">{message}</div>}
-      <Form onItemFormSubmit={onItemFormSubmit} />
+      <Form updateWorkoutClasses={updateWorkoutClasses} />
       {workoutClasses.map(workoutClass => (
         <Container
           key={workoutClass.id}

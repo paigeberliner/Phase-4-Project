@@ -46,7 +46,7 @@ def workout_classes():
                 "class_name": workout_class.class_name,
                 "class_duration": workout_class.class_duration,
                 "class_date": workout_class.class_date.isoformat() if workout_class.class_date else None,
-                "class_time": workout_class.class_time.isoformat() if workout_class.class_time else None,
+                "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,  # Format time
                 "created_at": workout_class.created_at.isoformat() if workout_class.created_at else None
             }
             workout_classes.append(workout_class_dict)
@@ -63,15 +63,19 @@ def workout_classes():
             return make_response(jsonify({"error": "No input data provided"}), 400)
 
         try:
+            class_date = datetime.fromisoformat(data.get('class_date')) if data.get('class_date') else None
+            class_time_str = data.get('class_time')
+            class_time = datetime.strptime(class_time_str, "%H:%M").time() if class_time_str else None
+
             new_workout_class = WorkoutClass(
                 studio_name=data.get('studio_name'),
                 studio_location=data.get('studio_location'),
                 class_name=data.get('class_name'),
                 class_duration=data.get('class_duration'),
-                class_date=datetime.fromisoformat(data.get('class_date')) if data.get('class_date') else None,
-                class_time=datetime.fromisoformat(data.get('class_time')) if data.get('class_time') else None,
+                class_date=class_date,
+                class_time=class_time,
                 created_at=datetime.utcnow()  # Set to current time
-)
+            )
             db.session.add(new_workout_class)
             db.session.commit()
 
@@ -82,7 +86,7 @@ def workout_classes():
                 "class_name": new_workout_class.class_name,
                 "class_duration": new_workout_class.class_duration,
                 "class_date": new_workout_class.class_date.isoformat() if new_workout_class.class_date else None,
-                "class_time": new_workout_class.class_time.isoformat() if new_workout_class.class_time else None,
+                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,  # Format time
                 "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
             }
 

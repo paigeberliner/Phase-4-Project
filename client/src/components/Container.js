@@ -1,20 +1,23 @@
-import React from "react";
-import Class from "./Class";
-import './Container.css';
+// Container.js
+import React from 'react';
+import './Container.css'; // Ensure this file exists and is correctly styled
 
-function Container({ id, studio_name, class_name, studio_location, class_time, class_duration }) {
+const Container = ({ id, studio_name, class_name, studio_location, class_time, class_duration }) => {
   return (
-    <div className="class-grid">
-      <Class
-        key={id}
-        studio_name={studio_name}
-        class_name={class_name}
-        studio_location={studio_location}
-        class_time={class_time}
-        class_duration={class_duration}
-      />
+    <div className="classTile">
+      <div className="classTile-row">
+        <div className="classTile-cell"><strong>Studio Name:</strong> {studio_name}</div>
+        <div className="classTile-cell"><strong>Class Name:</strong> {class_name}</div>
+      </div>
+      <div className="classTile-row">
+        <div className="classTile-cell"><strong>Location:</strong> {studio_location}</div>
+        <div className="classTile-cell"><strong>Duration:</strong> {class_duration} minutes</div>
+      </div>
+      <div className="classTile-row">
+        <div className="classTile-cell"><strong>Time:</strong> {class_time}</div>
+      </div>
     </div>
   );
-}
+};
 
 export default Container;

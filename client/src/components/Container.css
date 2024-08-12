@@ -1,6 +1,6 @@
 .class-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted minimum width for tiles */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusted minimum width for tiles */
   gap: 20px; /* Increased spacing between tiles */
   padding: 20px; /* Added padding */
 }
@@ -11,7 +11,7 @@
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   padding: 20px;
-  text-align: center;
+  text-align: left; /* Align text to the left for table-like appearance */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
 }
 
@@ -20,12 +20,19 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
-.classTile h2 {
-  font-size: 1.5em; /* Slightly larger font size */
-  margin-bottom: 12px; /* Increased margin */
+/* Table-like rows and cells */
+.classTile-row {
+  display: flex;
+  justify-content: space-between; /* Space between cells */
+  margin-bottom: 10px; /* Space between rows */
 }
 
-.classTile p {
-  margin: 6px 0; /* Adjusted margin */
-  font-size: 1em; /* Adjusted font size */
+.classTile-cell {
+  flex: 1; /* Each cell takes equal space */
+  padding: 5px; /* Padding inside each cell */
+}
+
+/* Optional styling for headers in cells */
+.classTile-cell strong {
+  display: block; /* Display labels on new line */
 }

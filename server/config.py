@@ -12,9 +12,8 @@ from sqlalchemy import MetaData
 
 # Instantiate app, set attributes
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={
@@ -29,7 +28,3 @@ api = Api(app)
 
 # Instantiate CORS
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-
-
-
-
