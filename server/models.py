@@ -7,6 +7,9 @@ class User(db.Model):
     first_name = db.Column(db.String) 
     last_name = db.Column(db.String)
     created_at = db.Column(db.DateTime)
+    reviews = db.relationship('Review')
+    # Relationship mapping the user to related reviews
+    reviews = db.relationship('Review', back_populates="user")
 
 
 class WorkoutClass (db.Model): 
@@ -27,3 +30,6 @@ class Review (db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     review = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # Relationship mapping the review to related user
+    user = db.relationship('User', back_populates="reviews")

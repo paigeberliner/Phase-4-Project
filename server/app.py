@@ -34,6 +34,23 @@ def users():
 
     return response
 
+@app.route('/reviews', methods=['GET'])
+def reviews(): 
+    reviews = []
+    for review in Review.query.all(): 
+        review_dict = { 
+            "user": review.user.first_name,
+            "review": review.review
+        }
+        reviews.append(review_dict)
+
+    response = make_response(
+        jsonify(reviews),
+        200
+    )
+
+    return response
+
 @app.route('/workoutclasses', methods=['GET', 'POST'])
 def workout_classes():
     if request.method == 'GET': 
