@@ -1,8 +1,7 @@
-// Container.js
 import React from 'react';
 import './Container.css'; // Ensure this file exists and is correctly styled
 
-const Container = ({ id, studio_name, class_name, studio_location, class_time, class_duration }) => {
+const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, created_at }) => {
   return (
     <div className="classTile">
       <div className="classTile-row">
@@ -14,7 +13,8 @@ const Container = ({ id, studio_name, class_name, studio_location, class_time, c
         <div className="classTile-cell"><strong>Duration:</strong> {class_duration} minutes</div>
       </div>
       <div className="classTile-row">
-        <div className="classTile-cell"><strong>Time:</strong> {class_time}</div>
+        <div className="classTile-cell"><strong>Date:</strong> {new Date(class_date).toLocaleDateString()}</div>
+        <div className="classTile-cell"><strong>Time:</strong> {new Date(class_time).toLocaleTimeString()}</div>
       </div>
     </div>
   );

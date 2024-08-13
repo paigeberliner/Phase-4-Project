@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Local imports
 from app import app
-from models import db, User, WorkoutClass
+from models import db, User, WorkoutClass, Review
 
 if __name__ == '__main__':
     with app.app_context():
@@ -19,6 +19,11 @@ if __name__ == '__main__':
         db.session.add(user)
         db.session.commit()
 
+        # Create an example of a reivew 
+        review = Review (review="I liked this class")
+        db.session.add(review)
+        db.session.commit()
+    
         # Create an example workout class
         class_date = datetime.strptime('2024-08-10', '%Y-%m-%d')
         class_time = datetime.strptime('19:00:00', '%H:%M:%S').time()

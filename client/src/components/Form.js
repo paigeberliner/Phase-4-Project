@@ -9,7 +9,7 @@ export const Form = ({ updateWorkoutClasses }) => {
     studio_location: yup.string().required("Studio location is required"),
     class_name: yup.string().required("Class name is required"),
     class_duration: yup.number().integer("Class duration must be an integer").required("Class duration is required"),
-    class_date: yup.date().required("Class date is required"),
+    //class_date: yup.date().required("Class date is required"),
     class_time: yup.string().required("Class time is required") // Added required validation
   });
 
@@ -19,14 +19,15 @@ export const Form = ({ updateWorkoutClasses }) => {
       studio_location: "",
       class_name: "",
       class_duration: "",
-      class_date: "",
+      //class_date: "",
       class_time: "",
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
       const formattedValues = {
         ...values,
-        class_time: values.class_time ? values.class_time.split('T')[1] : ""  // Extract time part only
+        //class_date: values.class_date ? values.class_date.split('T')[0] : "",  // Format date if it exists
+        class_time: values.class_time ? values.class_time.split('T')[1]?.split('.')[0] : ""  // Format time if it exists
       };
 
       fetch("/workoutclasses", {

@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Local imports
 from config import app, db, api
-from models import User, WorkoutClass
+from models import User, WorkoutClass, Review
 
 # Views go here!
 
@@ -63,7 +63,8 @@ def workout_classes():
             return make_response(jsonify({"error": "No input data provided"}), 400)
 
         try:
-            class_date = datetime.fromisoformat(data.get('class_date')) if data.get('class_date') else None
+            class_date_str = data.get('class_date')
+            class_date = datetime.strptime(class_date_str('class_date'), '%m.%d.%Y') if data.get('class_date') else None
             class_time_str = data.get('class_time')
             class_time = datetime.strptime(class_time_str, "%H:%M").time() if class_time_str else None
 

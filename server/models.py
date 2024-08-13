@@ -22,4 +22,8 @@ class WorkoutClass (db.Model):
     created_at = db.Column(db.DateTime)
 
 
+class Review (db.Model):
+    __tablename__ = 'reviews'
 
+    id = db.Column(db.Integer, primary_key=True)
+    review = db.Column(db.String)
