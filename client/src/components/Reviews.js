@@ -26,7 +26,7 @@ const Reviews = () => {
       <ul>
         {reviews.map((review, index) => (
           <li key={index}>
-            <strong>{review.user}:</strong> {review.review}
+            <strong>{review.user}'s review for {review.workout_class}:</strong> {review.review}
           </li>
         ))}
       </ul>

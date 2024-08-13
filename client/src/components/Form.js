@@ -5,12 +5,12 @@ import './Form.css'; // Ensure this file exists and is correctly styled
 
 export const Form = ({ updateWorkoutClasses }) => {
   const formSchema = yup.object().shape({
-    studio_name: yup.string().required("Studio name is required"),
+    studio_name: yup.mixed().required("Studio name is required"),
     studio_location: yup.string().required("Studio location is required"),
     class_name: yup.string().required("Class name is required"),
     class_duration: yup.number().integer("Class duration must be an integer").required("Class duration is required"),
-    //class_date: yup.date().required("Class date is required"),
-    class_time: yup.string().required("Class time is required") // Added required validation
+    //class_date: yup.date().required("Class date is required"), // Uncomment if date is required
+    class_time: yup.string().required("Class time is required")
   });
 
   const formik = useFormik({

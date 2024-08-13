@@ -34,22 +34,49 @@ def users():
 
     return response
 
-@app.route('/reviews', methods=['GET'])
+@app.route('/reviews', methods=['GET', 'POST'])
 def reviews(): 
-    reviews = []
-    for review in Review.query.all(): 
-        review_dict = { 
-            "user": review.user.first_name,
-            "review": review.review
-        }
-        reviews.append(review_dict)
+    if request.method == 'GET':
+        reviews = []
+        for review in Review.query.all(): 
+            review_dict = { 
+                "user": review.user.first_name,
+                "workout_class": review.workout_class.class_name,
+                "review": review.review
+            }
+            reviews.append(review_dict)
 
-    response = make_response(
-        jsonify(reviews),
-        200
-    )
+        response = make_response(
+            jsonify(reviews),
+            200
+        )
+        return response
 
-    return response
+    elif request.method == 'POST':
+        try:
+            data = request.get_json()
+            new_review = Review(
+                review=data.get('review'),
+                user_id=data.get('user_id')
+            )
+            db.session.add(new_review)
+            db.session.commit()
+
+            response_body = {
+                "id": new_review.id,
+                "review": new_review.review,
+                "user_id": new_review.user_id
+            }
+
+            response = make_response(
+                jsonify(response_body),
+                201
+            )
+            return response
+
+        except Exception as e:
+            return make_response(jsonify({"error": str(e)}), 400)
+
 
 @app.route('/workoutclasses', methods=['GET', 'POST'])
 def workout_classes():
