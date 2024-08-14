@@ -15,25 +15,75 @@ from models import User, WorkoutClass, Review
 def index():
     return '<h1>Project Server</h1>'
 
-@app.route('/users', methods=['GET'])
+from flask import Flask, request, jsonify, make_response
+from models import db, User
+from datetime import datetime
+
+@app.route('/users', methods=['GET', 'POST'])
 def users(): 
-    users = []
-    for user in User.query.all(): 
-        user_dict = { 
+    if request.method == 'GET':
+        users = []
+        for user in User.query.all(): 
+            user_dict = { 
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name, 
+                "created_at": user.created_at
+            }
+            users.append(user_dict)
+
+        response = make_response(
+            jsonify(users),
+            200
+        )
+        return response
+
+    elif request.method == 'POST':
+        try:
+            data = request.get_json()
+            new_user = User(
+                email=data["email"],
+                first_name=data.get('first_name'),
+                last_name=data.get('last_name'),
+                created_at=data.get('created_at', datetime.utcnow())  # Set created_at to now if not provided
+            )
+            db.session.add(new_user)
+            db.session.commit()
+
+            response_body = {
+                "message": "User created successfully",
+                "user": {
+                    "email": new_user.email,
+                    "first_name": new_user.first_name,
+                    "last_name": new_user.last_name,
+                    "created_at": new_user.created_at
+                }
+            }
+
+            response = make_response(
+                jsonify(response_body),
+                201
+            )
+            return response
+
+        except Exception as e:
+            return make_response(jsonify({"error": str(e)}), 400)
+
+
+@app.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        user_dict = {
             "email": user.email,
             "first_name": user.first_name,
-            "last_name": user.last_name, 
-            "created_at": user.created_at
+            "last_name": user.last_name,
+            "created_at": user.created_at.isoformat() if user.created_at else None
         }
-        users.append(user_dict)
-
-    response = make_response(
-        jsonify(users),
-        200
-    )
-
-    return response
-
+        return make_response(jsonify(user_dict), 200)
+    else:
+        return make_response(jsonify({"error": "User not found"}), 404)
+    
 @app.route('/reviews', methods=['GET', 'POST'])
 def reviews(): 
     if request.method == 'GET':

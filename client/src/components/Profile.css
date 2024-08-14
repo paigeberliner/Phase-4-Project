@@ -1,0 +1,33 @@
+/* Profile.css */
+
+.profile-container {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .profile-navbar {
+    margin-bottom: 20px;
+  }
+  
+  .profile-heading {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .profile-details {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #555;
+  }
+  
+  .profile-details p {
+    margin: 10px 0;
+  }
+  
+  .profile-details strong {
+    color: #000;
+  }
+  

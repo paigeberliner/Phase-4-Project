@@ -1,119 +1,118 @@
 /* NavBar Container */
 .nav-bar {
-    display: flex;
-    justify-content: space-between; /* Distributes space between left and right items */
-    align-items: center; /* Vertically centers items */
-    padding: 12px 24px; /* Slightly increased padding */
-    background-color: #ffffff; /* White background */
-    border-bottom: 1px solid #e0e0e0; /* Subtle border for separation */
-    font-family: 'Roboto', sans-serif; /* Modern font */
-    font-weight: 500; /* Slightly lighter font weight */
-    color: #333; /* Darker text color for better readability */
-  }
-  
-  /* Left and Right Item Containers */
-  .nav-bar .left-items, 
-  .nav-bar .right-items {
-    display: flex;
-    align-items: center; /* Vertically centers items within each group */
-  }
-  
-  /* Links and Buttons */
-  .nav-bar .left-items a,
-  .nav-bar .right-items button {
-    text-decoration: none; /* Remove underline from links */
-    color: #333; /* Color for links */
-    margin: 0 12px; /* Spacing between items */
-    background: none; /* Remove background for links */
-    border: none; /* Remove border for links */
-    transition: color 0.3s ease; /* Smooth color transition */
-  }
-  
-  /* Link and Button Hover States */
-  .nav-bar .left-items a:hover,
-  .nav-bar .right-items button:hover {
-    color: #007bff; /* Highlight color on hover */
-    text-decoration: underline; /* Underline on hover */
-  }
-  
-  /* Menu Items */
-  .menu-item {
-    padding: 12px 24px;
-    cursor: pointer;
-    background-color: #007bff; /* Primary color */
-    color: #fff;
-    border: none;
-    border-radius: 6px; /* Slightly larger border radius */
-    margin: 0 8px; /* Reduced spacing between menu items */
-    transition: background-color 0.3s ease; /* Smooth background color transition */
-  }
-  
-  .menu-item:hover {
-    background-color: #0056b3; /* Darker color on hover */
-  }
-  
-  /* Greeting and Messages */
-  .greeting {
-    margin-top: 8px; /* Reduced margin */
-    color: #343a40;
-    font-weight: 500; /* Slightly lighter font weight */
-  }
-  
-  .message {
-    margin: 8px;
-    color: #dc3545; /* Bootstrap red color */
-    font-weight: 500;
-  }
-  
-  /* Login Form */
-  .login-form {
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px; /* Modern rounded corners */
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  .login-form label {
-    display: block;
-    margin-bottom: 8px; /* Increased spacing */
-    font-weight: 500;
-    color: #555; /* Slightly lighter color for labels */
-  }
-  
-  .login-form input {
-    margin-bottom: 12px; /* Increased spacing */
-    padding: 10px;
-    width: calc(100% - 20px); /* Adjust width to account for padding */
-    border: 1px solid #ddd; /* Light border color */
-    border-radius: 6px; /* Slightly larger border radius */
-    font-size: 1em; /* Consistent font size */
-    transition: border-color 0.3s ease; /* Smooth border color transition */
-  }
-  
-  .login-form input:focus {
-    border-color: #007bff; /* Highlight border color on focus */
-  }
-  
-  .login-form button {
-    padding: 12px 20px;
-    background-color: #007bff; /* Primary button color */
-    color: #fff;
-    border: none;
-    border-radius: 6px; /* Slightly larger border radius */
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth background color transition */
-  }
-  
-  .login-form button:hover {
-    background-color: #0056b3; /* Darker color on hover */
-  }
-  
-  /* Logout Section */
-  .logout-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
+  display: flex;
+  justify-content: space-between; /* Distributes space between left and right items */
+  align-items: center; /* Vertically centers items */
+  padding: 12px 24px; /* Slightly increased padding */
+  background-color: #ffffff; /* White background */
+  border-bottom: 1px solid #e0e0e0; /* Subtle border for separation */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  font-weight: 500; /* Slightly lighter font weight */
+  color: #333; /* Darker text color for better readability */
+}
+
+/* Left and Right Item Containers */
+.nav-bar .left-items, 
+.nav-bar .right-items {
+  display: flex;
+  align-items: center; /* Vertically centers items within each group */
+}
+
+/* Links and Buttons */
+.nav-bar .left-items a,
+.nav-bar .right-items button {
+  text-decoration: none; /* Remove underline from links */
+  color: #333; /* Color for links */
+  margin: 0 12px; /* Spacing between items */
+  background: none; /* Remove background for links */
+  border: none; /* Remove border for links */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Link and Button Hover States */
+.nav-bar .left-items a:hover,
+.nav-bar .right-items button:hover {
+  color: #007bff; /* Highlight color on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Menu Items */
+.menu-item {
+  padding: 12px 24px;
+  cursor: pointer;
+  background-color: #007bff; /* Primary color */
+  color: #fff;
+  border: none;
+  border-radius: 6px; /* Slightly larger border radius */
+  margin: 0 8px; /* Reduced spacing between menu items */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.menu-item:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Greeting and Messages */
+.greeting {
+  margin-top: 8px; /* Reduced margin */
+  color: #343a40;
+  font-weight: 500; /* Slightly lighter font weight */
+}
+
+.message {
+  margin: 8px;
+  color: #dc3545; /* Bootstrap red color */
+  font-weight: 500;
+}
+
+/* Login Form */
+.login-form {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px; /* Modern rounded corners */
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px; /* Increased spacing */
+  font-weight: 500;
+  color: #555; /* Slightly lighter color for labels */
+}
+
+.login-form input {
+  margin-bottom: 12px; /* Increased spacing */
+  padding: 10px;
+  width: calc(100% - 20px); /* Adjust width to account for padding */
+  border: 1px solid #ddd; /* Light border color */
+  border-radius: 6px; /* Slightly larger border radius */
+  font-size: 1em; /* Consistent font size */
+  transition: border-color 0.3s ease; /* Smooth border color transition */
+}
+
+.login-form input:focus {
+  border-color: #007bff; /* Highlight border color on focus */
+}
+
+.login-form button {
+  padding: 12px 20px;
+  background-color: #007bff; /* Primary button color */
+  color: #fff;
+  border: none;
+  border-radius: 6px; /* Slightly larger border radius */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.login-form button:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Logout Section */
+.logout-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "./NavBar";
+import './Reviews.css';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -18,14 +19,12 @@ const Reviews = () => {
   }, []);
 
   return (
-    <div>
+    <div className="reviews-container">
       <NavBar />
-      <h1>Reviews</h1>
-      <form>
-      </form>
-      <ul>
+      <h1 className="reviews-heading">Reviews</h1>
+      <ul className="reviews-list">
         {reviews.map((review, index) => (
-          <li key={index}>
+          <li key={index} className="reviews-item">
             <strong>{review.user}'s review for {review.workout_class}:</strong> {review.review}
           </li>
         ))}
