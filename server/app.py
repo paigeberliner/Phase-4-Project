@@ -128,7 +128,7 @@ def reviews():
             return make_response(jsonify({"error": str(e)}), 400)
 
 
-@app.route('/workoutclasses', methods=['GET', 'POST', 'DELETE'])
+@app.route('/workoutclasses', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 def workout_classes():
     if request.method == 'GET': 
         workout_classes = []
@@ -216,6 +216,50 @@ def workout_classes():
             200
         )
 
+        return response
+    
+    elif request.method == 'PATCH':
+        data = request.get_json()
+        workout_class_id = data.get('id')
+        email = data.get('email')
+        
+        if not workout_class_id:
+            return make_response(jsonify({"error": "No class ID provided"}), 400)
+        
+        workout_class = WorkoutClass.query.get(workout_class_id)
+        if not workout_class:
+            return make_response(jsonify({"error": "Class not found"}), 404)
+        
+        if email:
+            user = User.query.filter_by(email=email).first()
+            if not user:
+                return make_response(jsonify({"error": "User not found"}), 404)
+
+            if workout_class.user_claimed:
+                return make_response(jsonify({"error": "Class already claimed"}), 400)
+
+            workout_class.user_claimed = user
+        else:
+            return make_response(jsonify({"error": "Email is required to claim the class"}), 400)
+
+        db.session.commit()
+        
+        response_body = {
+            "id": workout_class.id,
+            "studio_name": workout_class.studio_name,
+            "studio_location": workout_class.studio_location,
+            "class_name": workout_class.class_name,
+            "class_duration": workout_class.class_duration,
+            "class_date": workout_class.class_date.isoformat() if workout_class.class_date else None,
+            "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,
+            "created_at": workout_class.created_at.isoformat() if workout_class.created_at else None,
+            "claimed_by": workout_class.user_claimed.email if workout_class.user_claimed else None
+        }
+
+        response = make_response(
+            jsonify(response_body),
+            200
+        )
         return response
 
 if __name__ == '__main__':

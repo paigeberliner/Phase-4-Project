@@ -10,7 +10,7 @@ export const Form = ({ updateWorkoutClasses }) => {
     class_name: yup.string().required("Class name is required"),
     class_duration: yup.number().integer("Class duration must be an integer").required("Class duration is required"),
     //class_date: yup.date().required("Class date is required"), // Uncomment if date is required
-    class_time: yup.string().required("Class time is required")
+    //class_time: yup.string().required("Class time is required")
   });
 
   const formik = useFormik({
@@ -20,10 +20,11 @@ export const Form = ({ updateWorkoutClasses }) => {
       class_name: "",
       class_duration: "",
       //class_date: "",
-      class_time: "",
+      //class_time: "",
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
+      console.log(values)
       const formattedValues = {
         ...values,
         //class_date: values.class_date ? values.class_date.split('T')[0] : "",  // Format date if it exists

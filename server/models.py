@@ -11,6 +11,9 @@ class User(db.Model):
     
     # Relationship mapping the user to related reviews
     reviews = db.relationship('Review', back_populates="user")
+    
+    # Relationship mapping the user to claimed workout classes
+    workoutclasses_claimed = db.relationship('WorkoutClass', back_populates="user_claimed")
 
 
 class WorkoutClass(db.Model): 
@@ -24,11 +27,13 @@ class WorkoutClass(db.Model):
     class_date = db.Column(db.DateTime)
     class_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime)
-    #user_claimed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_claimed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     # Relationship mapping the workout class to related reviews
     reviews = db.relationship('Review', back_populates="workout_class")
-    #user_claimed = db.relationship('User', back_populates="workout_class")
+    
+    # Relationship mapping the workout class to the user who claimed it
+    user_claimed = db.relationship('User', back_populates="workoutclasses_claimed")
 
 
 class Review(db.Model):

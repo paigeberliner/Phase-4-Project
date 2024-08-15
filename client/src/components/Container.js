@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Container.css';
 
 const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, onDelete }) => {
+  const [email, setEmail] = useState('');
+  const [isClaimed, setIsClaimed] = useState(false);
 
-  async function handleClick(e) {
+  async function handleDeleteClick(e) {
     e.preventDefault();
     console.log('Class ID to delete:', id);
 
@@ -29,6 +31,33 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
     }
   }
 
+  async function handleClaimClick(e) {
+    e.preventDefault();
+    console.log('Class ID to claim:', id, 'Email:', email);
+
+    try {
+      const response = await fetch('/workoutclasses', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, email }), // Send the class ID and email in the request body
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log the success message
+        setIsClaimed(true); // Update the UI to reflect that the class has been claimed
+        setEmail(''); // Clear the email input field
+      } else {
+        const errorData = await response.json();
+        console.error('Error claiming class:', errorData.error);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  }
+
   return (
     <div className="classTile">
       <div className="classTile-row">
@@ -43,7 +72,21 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         <div className="classTile-cell"><strong>Date:</strong> {new Date(class_date).toLocaleDateString()}</div>
         <div className="classTile-cell"><strong>Time:</strong> {new Date(class_time).toLocaleTimeString()}</div>
       </div>
-      <button onClick={handleClick}>Delete</button>
+      {!isClaimed && (
+        <>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email to claim"
+          />
+          <button onClick={handleClaimClick}>Claim Class</button>
+        </>
+      )}
+      {!isClaimed && (
+        <button onClick={handleDeleteClick}>Delete</button>
+      )}
+      {isClaimed && <div className="claimedMessage">This class has been claimed!</div>}
     </div>
   );
 };
