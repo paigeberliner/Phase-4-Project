@@ -19,6 +19,11 @@ function App() {
     updateWorkoutClasses();
   }, []);
 
+  const handleDelete = (id) => {
+    // Remove the class from the state to immediately update the UI
+    setWorkoutClasses(workoutClasses.filter(workoutClass => workoutClass.id !== id));
+  };
+
   return (
     <>
       <NavBar />
@@ -26,11 +31,13 @@ function App() {
       {workoutClasses.map(workoutClass => (
         <Container
           key={workoutClass.id}
+          id={workoutClass.id}
           studio_name={workoutClass.studio_name}
           studio_location={workoutClass.studio_location}
           class_name={workoutClass.class_name}
           class_duration={workoutClass.class_duration}
           class_time={workoutClass.class_time}
+          onDelete={handleDelete} // Pass the onDelete function
         />
       ))}
     </>

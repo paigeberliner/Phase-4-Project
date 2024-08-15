@@ -24,9 +24,11 @@ class WorkoutClass(db.Model):
     class_date = db.Column(db.DateTime)
     class_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime)
+    #user_claimed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     # Relationship mapping the workout class to related reviews
     reviews = db.relationship('Review', back_populates="workout_class")
+    #user_claimed = db.relationship('User', back_populates="workout_class")
 
 
 class Review(db.Model):

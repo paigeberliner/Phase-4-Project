@@ -128,7 +128,7 @@ def reviews():
             return make_response(jsonify({"error": str(e)}), 400)
 
 
-@app.route('/workoutclasses', methods=['GET', 'POST'])
+@app.route('/workoutclasses', methods=['GET', 'POST', 'DELETE'])
 def workout_classes():
     if request.method == 'GET': 
         workout_classes = []
@@ -140,7 +140,7 @@ def workout_classes():
                 "class_name": workout_class.class_name,
                 "class_duration": workout_class.class_duration,
                 "class_date": workout_class.class_date.isoformat() if workout_class.class_date else None,
-                "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,  # Format time
+                "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,
                 "created_at": workout_class.created_at.isoformat() if workout_class.created_at else None
             }
             workout_classes.append(workout_class_dict)
@@ -158,7 +158,7 @@ def workout_classes():
 
         try:
             class_date_str = data.get('class_date')
-            class_date = datetime.strptime(class_date_str('class_date'), '%m.%d.%Y') if data.get('class_date') else None
+            class_date = datetime.strptime(class_date_str, '%m.%d.%Y') if class_date_str else None
             class_time_str = data.get('class_time')
             class_time = datetime.strptime(class_time_str, "%H:%M").time() if class_time_str else None
 
@@ -169,7 +169,7 @@ def workout_classes():
                 class_duration=data.get('class_duration'),
                 class_date=class_date,
                 class_time=class_time,
-                created_at=datetime.utcnow()  # Set to current time
+                created_at=datetime.utcnow()
             )
             db.session.add(new_workout_class)
             db.session.commit()
@@ -181,7 +181,7 @@ def workout_classes():
                 "class_name": new_workout_class.class_name,
                 "class_duration": new_workout_class.class_duration,
                 "class_date": new_workout_class.class_date.isoformat() if new_workout_class.class_date else None,
-                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,  # Format time
+                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,
                 "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
             }
 
@@ -190,9 +190,33 @@ def workout_classes():
                 201
             )
             return response
-
         except Exception as e:
             return make_response(jsonify({"error": str(e)}), 400)
+    
+    elif request.method == 'DELETE':
+        data = request.get_json()
+        workout_class_id = data.get('id')
+        if not workout_class_id:
+            return make_response(jsonify({"error": "No class ID provided"}), 400)
+
+        workout_class = WorkoutClass.query.get(workout_class_id)
+        if not workout_class:
+            return make_response(jsonify({"error": "Class not found"}), 404)
+
+        db.session.delete(workout_class)
+        db.session.commit()
+
+        response_body = {
+            "delete_successful": True,
+            "message": "Class deleted."
+        }
+
+        response = make_response(
+            jsonify(response_body),
+            200
+        )
+
+        return response
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

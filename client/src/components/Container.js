@@ -1,7 +1,34 @@
 import React from 'react';
-import './Container.css'; // Ensure this file exists and is correctly styled
+import './Container.css';
 
-const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, created_at }) => {
+const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, onDelete }) => {
+
+  async function handleClick(e) {
+    e.preventDefault();
+    console.log('Class ID to delete:', id);
+
+    try {
+      const response = await fetch('/workoutclasses', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }), // Send the class ID in the request body
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log the success message
+        onDelete(id); // Call onDelete to remove the class from the list in the parent component
+      } else {
+        const errorData = await response.json();
+        console.error('Error deleting class:', errorData.error);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  }
+
   return (
     <div className="classTile">
       <div className="classTile-row">
@@ -16,6 +43,7 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         <div className="classTile-cell"><strong>Date:</strong> {new Date(class_date).toLocaleDateString()}</div>
         <div className="classTile-cell"><strong>Time:</strong> {new Date(class_time).toLocaleTimeString()}</div>
       </div>
+      <button onClick={handleClick}>Delete</button>
     </div>
   );
 };
