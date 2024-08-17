@@ -69,8 +69,8 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         <div className="classTile-cell"><strong>Duration:</strong> {class_duration} minutes</div>
       </div>
       <div className="classTile-row">
-        <div className="classTile-cell"><strong>Date:</strong> {new Date(class_date).toLocaleDateString()}</div>
-        <div className="classTile-cell"><strong>Time:</strong> {new Date(class_time).toLocaleTimeString()}</div>
+        <div className="classTile-cell"><strong>Date:</strong> {class_date}</div>
+        <div className="classTile-cell"><strong>Time:</strong> {class_time}</div>
       </div>
       {!isClaimed && (
         <>

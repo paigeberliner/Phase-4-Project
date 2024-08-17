@@ -9,8 +9,8 @@ export const Form = ({ updateWorkoutClasses }) => {
     studio_location: yup.string().required("Studio location is required"),
     class_name: yup.string().required("Class name is required"),
     class_duration: yup.number().integer("Class duration must be an integer").required("Class duration is required"),
-    //class_date: yup.date().required("Class date is required"), // Uncomment if date is required
-    //class_time: yup.string().required("Class time is required")
+    class_date: yup.string().required("Class date is required"), // Uncomment if date is required
+    class_time: yup.string().required("Class time is required")
   });
 
   const formik = useFormik({
@@ -19,25 +19,29 @@ export const Form = ({ updateWorkoutClasses }) => {
       studio_location: "",
       class_name: "",
       class_duration: "",
-      //class_date: "",
-      //class_time: "",
+      class_date: "",
+      class_time: "",
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      console.log(values)
+
       const formattedValues = {
         ...values,
-        //class_date: values.class_date ? values.class_date.split('T')[0] : "",  // Format date if it exists
-        class_time: values.class_time ? values.class_time.split('T')[1]?.split('.')[0] : ""  // Format time if it exists
+        class_date: values.class_date ? new Date(values.class_date).toISOString().split('T')[0] : "",
+        class_time: values.class_time ? values.class_time : "", // Ensure class_time is not empty
       };
+  
+      console.log(formattedValues.class_date);
+      
 
-      fetch("/workoutclasses", {
+      fetch("http://localhost:5555/workoutclasses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formattedValues),
       })
+
       .then((res) => {
         if (res.ok) { // Check for response status
           updateWorkoutClasses(); // Update the workout classes list
@@ -118,7 +122,10 @@ export const Form = ({ updateWorkoutClasses }) => {
             id="class_date"
             name="class_date"
             type="date"
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.handleChange(e);
+              console.log(e.target.value);
+              }}
             value={formik.values.class_date}
           />
           {formik.errors.class_date ? (
@@ -132,9 +139,12 @@ export const Form = ({ updateWorkoutClasses }) => {
             id="class_time"
             name="class_time"
             type="time"
-            onChange={formik.handleChange}
-            value={formik.values.class_time}
-          />
+            onChange={(e) => {
+            formik.handleChange(e);
+            console.log(e.target.value);
+            }}
+          value={formik.values.class_time}
+            />
           {formik.errors.class_time ? (
             <p className="error-message">{formik.errors.class_time}</p>
           ) : null}

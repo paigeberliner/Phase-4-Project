@@ -153,15 +153,16 @@ def workout_classes():
 
     elif request.method == 'POST':
         data = request.get_json()
+        print(data)
         if not data:
             return make_response(jsonify({"error": "No input data provided"}), 400)
 
         try:
             class_date_str = data.get('class_date')
-            class_date = datetime.strptime(class_date_str, '%m.%d.%Y') if class_date_str else None
+            class_date = datetime.strptime(class_date_str, '%Y-%m-%d') if class_date_str else None
             class_time_str = data.get('class_time')
-            class_time = datetime.strptime(class_time_str, "%H:%M").time() if class_time_str else None
-
+            class_time = datetime.strptime(class_time_str, "%H:%M") if class_time_str else None
+            #breakpoint()
             new_workout_class = WorkoutClass(
                 studio_name=data.get('studio_name'),
                 studio_location=data.get('studio_location'),
@@ -180,8 +181,8 @@ def workout_classes():
                 "studio_location": new_workout_class.studio_location,
                 "class_name": new_workout_class.class_name,
                 "class_duration": new_workout_class.class_duration,
-                "class_date": new_workout_class.class_date.isoformat() if new_workout_class.class_date else None,
-                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,
+                "class_date": new_workout_class.class_date,#isoformat() if new_workout_class.class_date else None,
+                "class_time": new_workout_class.class_time,#.strftime("%H:%M") if new_workout_class.class_time else None,
                 "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
             }
 
