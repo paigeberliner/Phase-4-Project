@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import './Container.css';
+import '../index.css';
 
 const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, onDelete }) => {
   const [email, setEmail] = useState('');
   const [isClaimed, setIsClaimed] = useState(false);
+
+  const formattedDate = new Date(class_date).toISOString().split('T')[0];
 
   async function handleDeleteClick(e) {
     e.preventDefault();
@@ -68,7 +70,7 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         <div className="classTile-cell"><strong>Duration:</strong> {class_duration} minutes</div>
       </div>
       <div className="classTile-row">
-        <div className="classTile-cell"><strong>Date:</strong> {class_date}</div>
+        <div className="classTile-cell"><strong>Date:</strong> {formattedDate}</div>
         <div className="classTile-cell"><strong>Time:</strong> {class_time}</div>
       </div>
       {!isClaimed && (

@@ -36,7 +36,7 @@ class WorkoutClass(db.Model):
     studio_location = db.Column(db.String)
     class_name = db.Column(db.String) 
     class_duration = db.Column(db.Integer)
-    class_date = db.Column(db.DateTime)
+    class_date = db.Column(db.String)
     class_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime)
     user_claimed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -77,7 +77,7 @@ class WorkoutClass(db.Model):
             'studio_location': self.studio_location, 
             'class_name': self.class_name,
             'class_duration': self.class_duration,
-            'class_date': self.class_date.strftime('%Y-%m-%d') if self.class_date else None,
+            'class_date': self.class_date,
             'class_time': self.class_time.strftime("%H:%M") if self.class_time else None,
             'created_at': self.created_at,
             'user_claimed': self.user_claimed_id

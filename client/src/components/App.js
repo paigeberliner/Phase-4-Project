@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import { Form } from './Form';
 import Container from './Container';
 
+
 function App() {
   const [workoutClasses, setWorkoutClasses] = useState([]);
 
@@ -14,7 +15,7 @@ function App() {
       .catch((error) => console.error("Error fetching workout classes:", error));
   };
 
-  // Fetch workout classes on component mount
+   //Fetch workout classes on component mount
   useEffect(() => {
     updateWorkoutClasses();
   }, []);
@@ -37,6 +38,7 @@ function App() {
           class_name={workoutClass.class_name}
           class_duration={workoutClass.class_duration}
           class_time={workoutClass.class_time}
+          class_date={workoutClass.class_date}
           onDelete={handleDelete} // Pass the onDelete function
         />
       ))}

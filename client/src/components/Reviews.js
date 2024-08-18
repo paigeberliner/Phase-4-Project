@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "./NavBar";
-import './Reviews.css';
+import '../index.css'; // Ensure this is imported correctly
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);

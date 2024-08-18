@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import './Form.css';
+import '../index.css';
 
 export const Form = ({ updateWorkoutClasses }) => {
   const formSchema = yup.object().shape({
@@ -24,12 +24,7 @@ export const Form = ({ updateWorkoutClasses }) => {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      const formattedValues = {
-        ...values,
-        class_date: values.class_date || "", // Ensure the date is either a string or an empty string
-        class_time: values.class_time || "" // Ensure the time is either a string or an empty string
-      };
-
+    
       fetch("http://localhost:5555/workoutclasses", {
         method: "POST",
         headers: {
