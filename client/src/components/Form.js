@@ -5,12 +5,12 @@ import './Form.css'; // Ensure this file exists and is correctly styled
 
 export const Form = ({ updateWorkoutClasses }) => {
   const formSchema = yup.object().shape({
-    studio_name: yup.mixed().required("Studio name is required"),
+    studio_name: yup.string().required("Studio name is required"),
     studio_location: yup.string().required("Studio location is required"),
     class_name: yup.string().required("Class name is required"),
     class_duration: yup.number().integer("Class duration must be an integer").required("Class duration is required"),
-    class_date: yup.string().required("Class date is required"), // Uncomment if date is required
-    class_time: yup.string().required("Class time is required")
+    class_date: yup.string().nullable(), // Allow null if not provided
+    class_time: yup.string().nullable() // Allow null if not provided
   });
 
   const formik = useFormik({
@@ -24,14 +24,16 @@ export const Form = ({ updateWorkoutClasses }) => {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-
+      console.log(values.class_date)
+      console.log(values.class_time)
       const formattedValues = {
         ...values,
-        class_date: values.class_date ? new Date(values.class_date).toISOString().split('T')[0] : "",
-        class_time: values.class_time ? values.class_time : "", // Ensure class_time is not empty
+        class_date: values.class_date ? new Date(values.class_date).toISOString() : "", // Use full ISO format
+        class_time: values.class_time ? values.class_time : "", // Adjust format for time
       };
   
       console.log(formattedValues.class_date);
+      console.log(formattedValues.class_time);
       
 
       fetch("http://localhost:5555/workoutclasses", {

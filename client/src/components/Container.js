@@ -10,12 +10,11 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
     console.log('Class ID to delete:', id);
 
     try {
-      const response = await fetch('/workoutclasses', {
+      const response = await fetch(`/workoutclasses/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id }), // Send the class ID in the request body
       });
 
       if (response.ok) {
@@ -36,7 +35,7 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
     console.log('Class ID to claim:', id, 'Email:', email);
 
     try {
-      const response = await fetch('/workoutclasses', {
+      const response = await fetch(`/workoutclasses/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
