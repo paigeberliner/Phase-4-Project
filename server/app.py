@@ -16,7 +16,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-CORS(app, resources={r"/*": {"origins": "*"}})
+#def create_app():
+    #app = Flask(__name__)
+    #CORS(app)
+    #return app
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 migrate = Migrate(app, db)
 db.init_app(app)
@@ -36,7 +41,6 @@ class UserResource(Resource):
             jsonify(response_dict_list),
             200,
         )
-
         return response
 
     def post(self):
@@ -47,7 +51,6 @@ class UserResource(Resource):
             last_name=data.get('last_name'),
             created_at=data.get('created_at', datetime.utcnow())  # Set created_at to now if not provided
             )
-
         db.session.add(new_user)
         db.session.commit()
 
@@ -62,21 +65,21 @@ class UserResource(Resource):
 
 api.add_resource(UserResource, '/users')
 
-class UserIDResource(Resource):
-    def get(self, user_id):
-        user = User.query.get(user_id)
-        if user:
-            user_dict = {
-                "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "created_at": user.created_at.isoformat() if user.created_at else None
-            }
-            return make_response(jsonify(user_dict), 200)
-        else:
-            return make_response(jsonify({"error": "User not found"}), 404)
+#class UserIDResource(Resource):
+    #def get(self, user_id):
+        #user = User.query.get(user_id)
+        #if user:
+            #user_dict = {
+                #"email": user.email,
+               # "first_name": user.first_name,
+                #"last_name": user.last_name,
+                #"created_at": user.created_at.isoformat() if user.created_at else None
+            #}
+            #return make_response(jsonify(user_dict), 200)
+        #else:
+            #return make_response(jsonify({"error": "User not found"}), 404)
 
-api.add_resource(UserIDResource, '/users/<int:user_id>') 
+#api.add_resource(UserIDResource, '/users/<int:user_id>') 
 
 
 class ReviewResource(Resource):
@@ -114,20 +117,19 @@ api.add_resource(ReviewResource, '/reviews')
 
 class WorkoutClassResource(Resource):
     def get(self):
-        response_dict_list = [w.to_dict() for w in WorkoutClass.query.all()] 
-
+        response_dict_list = [w.to_dict() for w in WorkoutClass.query.all()]
         response = make_response(
             jsonify(response_dict_list),
-            200,
+            200
         )
-
         return response
     
     def post(self):
         data = request.get_json()
+        print(data)
         try:
             class_date_str = data.get('class_date')
-            class_date = datetime.strptime(class_date_str, '%Y-%m-%d') if class_date_str else None
+            class_date = datetime.strftime(class_date_str,'%Y-%m-%d') if class_date_str else None
             class_time_str = data.get('class_time')
             class_time = datetime.strptime(class_time_str, "%H:%M") if class_time_str else None
 
@@ -144,16 +146,19 @@ class WorkoutClassResource(Resource):
             db.session.commit()
 
             response_body = {
-                 "id": new_workout_class.id,
-                 "studio_name": new_workout_class.studio_name,
-                 "studio_location": new_workout_class.studio_location,
-                 "class_name": new_workout_class.class_name,
-                 "class_duration": new_workout_class.class_duration,
-                 "class_date": new_workout_class.class_date,#isoformat() if new_workout_class.class_date else None,
-                 "class_time": new_workout_class.class_time,#.strftime("%H:%M") if new_workout_class.class_time else None,
-                 "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
-             }
-            return jsonify(response_body.to_dict()), 201
+                "id": new_workout_class.id,
+                "studio_name": new_workout_class.studio_name,
+                "studio_location": new_workout_class.studio_location,
+                "class_name": new_workout_class.class_name,
+                "class_duration": new_workout_class.class_duration,
+                "class_date": new_workout_class.class_date.strftime ('%Y-%m-%d') if new_workout_class.class_date else None,
+                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,
+                "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
+            }
+            return make_response(
+                jsonify(response_body),
+                201
+            )
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
@@ -202,7 +207,7 @@ class WorkoutClassResource(Resource):
             "studio_location": workout_class.studio_location,
             "class_name": workout_class.class_name,
             "class_duration": workout_class.class_duration,
-            "class_date": workout_class.class_date.isoformat() if workout_class.class_date else None,
+            "class_date": workout_class.class_date.strftime ('%Y-%m-%d') if workout_class.class_date else None,
             "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,
             "created_at": workout_class.created_at.isoformat() if workout_class.created_at else None,
             "claimed_by": workout_class.user_claimed.email if workout_class.user_claimed else None
@@ -212,10 +217,9 @@ class WorkoutClassResource(Resource):
             jsonify(response_body),
             200
         )
-        return response 
+        return response
 
 api.add_resource(WorkoutClassResource, '/workoutclasses', '/workoutclasses/<int:id>')
-
 
 
 # @app.route('/workoutclasses', methods=['GET', 'POST', 'DELETE', 'PATCH'])

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import './Form.css'; // Ensure this file exists and is correctly styled
+import './Form.css';
 
 export const Form = ({ updateWorkoutClasses }) => {
   const formSchema = yup.object().shape({
@@ -24,37 +24,33 @@ export const Form = ({ updateWorkoutClasses }) => {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      console.log(values.class_date)
-      console.log(values.class_time)
       const formattedValues = {
         ...values,
-        class_date: values.class_date ? new Date(values.class_date).toISOString() : "", // Use full ISO format
-        class_time: values.class_time ? values.class_time : "", // Adjust format for time
+        class_date: values.class_date || "", // Ensure the date is either a string or an empty string
+        class_time: values.class_time || "" // Ensure the time is either a string or an empty string
       };
-  
-      console.log(formattedValues.class_date);
-      console.log(formattedValues.class_time);
-      
 
       fetch("http://localhost:5555/workoutclasses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formattedValues),
+        body: JSON.stringify(values),
       })
-
-      .then((res) => {
-        if (res.ok) { // Check for response status
+        .then((res) => {
+          if (res.ok) {
+            return res.json(); // Process response JSON here if needed
+          } else {
+            throw new Error('Network response was not ok.');
+          }
+        })
+        .then((data) => {
+          console.log('Success:', data);
           updateWorkoutClasses(); // Update the workout classes list
-          formik.resetForm(); // Optionally reset the form
-        } else {
-          console.error("Error submitting form:", res.statusText);
-        }
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     },
   });
 
@@ -125,14 +121,14 @@ export const Form = ({ updateWorkoutClasses }) => {
             name="class_date"
             type="date"
             onChange={(e) => {
-              formik.handleChange(e);
-              console.log(e.target.value);
-              }}
-            value={formik.values.class_date}
+            formik.handleChange(e);
+            console.log(e.target.value); // Log the new value of the input
+            }}
+             value={formik.values.class_date}
           />
           {formik.errors.class_date ? (
             <p className="error-message">{formik.errors.class_date}</p>
-          ) : null}
+            ) : null}
         </div>
 
         <div className="form-group">
@@ -141,12 +137,9 @@ export const Form = ({ updateWorkoutClasses }) => {
             id="class_time"
             name="class_time"
             type="time"
-            onChange={(e) => {
-            formik.handleChange(e);
-            console.log(e.target.value);
-            }}
-          value={formik.values.class_time}
-            />
+            onChange={formik.handleChange}
+            value={formik.values.class_time}
+          />
           {formik.errors.class_time ? (
             <p className="error-message">{formik.errors.class_time}</p>
           ) : null}

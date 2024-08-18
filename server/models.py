@@ -1,5 +1,6 @@
 from config import db
 from datetime import datetime
+from sqlalchemy.orm import validates
 
 
 class User(db.Model): 
@@ -39,6 +40,28 @@ class WorkoutClass(db.Model):
     class_time = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime)
     user_claimed_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    @validates('studio_name')
+    def validate_studio_name(self, key, studio_name):
+        if not studio_name or not isinstance(studio_name, str):
+            raise ValueError("Studio name must be a non-empty string")
+        return studio_name
+    @validates('studio_location')
+    def validate_studio_name(self, key, studio_location):
+        if not studio_location or not isinstance(studio_location, str):
+            raise ValueError("Studio location must be a non-empty string")
+        return studio_location
+    @validates('class_name')
+    def validate_class_name(self, key, class_name):
+        if not class_name or not isinstance(class_name, str):
+            raise ValueError("Class name must be a non-empty string")
+        return class_name
+    @validates('class_duration')
+    def validate_class_duration(self, key, class_duration):
+        if not class_duration or not isinstance(class_duration, int):
+            raise ValueError("Class duration must be a non-empty integer")
+        return class_duration
+    
     
     
     # Relationship mapping the workout class to related reviews
@@ -54,8 +77,8 @@ class WorkoutClass(db.Model):
             'studio_location': self.studio_location, 
             'class_name': self.class_name,
             'class_duration': self.class_duration,
-            'class_date': self.class_date,
-            'class_time': self.class_time,
+            'class_date': self.class_date.strftime('%Y-%m-%d') if self.class_date else None,
+            'class_time': self.class_time.strftime("%H:%M") if self.class_time else None,
             'created_at': self.created_at,
             'user_claimed': self.user_claimed_id
         }
