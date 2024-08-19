@@ -39,6 +39,7 @@ function App() {
           class_duration={workoutClass.class_duration}
           class_time={workoutClass.class_time}
           class_date={workoutClass.class_date}
+          user_claimed={workoutClass.user_claimed}
           onDelete={handleDelete} // Pass the onDelete function
         />
       ))}

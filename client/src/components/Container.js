@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 
-const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, onDelete }) => {
+const Container = ({ id, studio_name, studio_location, class_name, class_duration, class_date, class_time, user_claimed, onDelete }) => {
   const [email, setEmail] = useState('');
   const [isClaimed, setIsClaimed] = useState(false);
 
   const formattedDate = new Date(class_date).toISOString().split('T')[0];
+
+  useEffect(() => {
+    // Check if user_claimed is an integer (i.e., the class has been claimed)
+    setIsClaimed(Number.isInteger(user_claimed));
+  }, [user_claimed]);
 
   async function handleDeleteClick(e) {
     e.preventDefault();
@@ -73,7 +78,9 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         <div className="classTile-cell"><strong>Date:</strong> {formattedDate}</div>
         <div className="classTile-cell"><strong>Time:</strong> {class_time}</div>
       </div>
-      {!isClaimed && (
+      {isClaimed ? (
+        <div className="claimedMessage">This class has been claimed!</div>
+      ) : (
         <>
           <input
             type="email"
@@ -82,12 +89,9 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
             placeholder="Enter your email to claim"
           />
           <button onClick={handleClaimClick}>Claim Class</button>
+          <button onClick={handleDeleteClick}>Delete</button>
         </>
       )}
-      {!isClaimed && (
-        <button onClick={handleDeleteClick}>Delete</button>
-      )}
-      {isClaimed && <div className="claimedMessage">This class has been claimed!</div>}
     </div>
   );
 };
