@@ -8,32 +8,37 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
   const formattedDate = new Date(class_date).toISOString().split('T')[0];
 
   useEffect(() => {
-    // Check if user_claimed is an integer (i.e., the class has been claimed)
     setIsClaimed(Number.isInteger(user_claimed));
   }, [user_claimed]);
 
   async function handleDeleteClick(e) {
     e.preventDefault();
-    console.log('Class ID to delete:', id);
+    const password = prompt("Enter password to delete:");
 
-    try {
-      const response = await fetch(`/workoutclasses/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    if (password === '123') {
+      console.log('Class ID to delete:', id);
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message); // Log the success message
-        onDelete(id); // Call onDelete to remove the class from the list in the parent component
-      } else {
-        const errorData = await response.json();
-        console.error('Error deleting class:', errorData.error);
+      try {
+        const response = await fetch(`/workoutclasses/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.message); // Log the success message
+          onDelete(id); // Call onDelete to remove the class from the list in the parent component
+        } else {
+          const errorData = await response.json();
+          console.error('Error deleting class:', errorData.error);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
       }
-    } catch (error) {
-      console.error('Network error:', error);
+    } else {
+      alert('Incorrect password. Class not deleted.');
     }
   }
 
@@ -47,12 +52,12 @@ const Container = ({ id, studio_name, studio_location, class_name, class_duratio
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, email }), // Send the class ID and email in the request body
+        body: JSON.stringify({ id, email }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message); // Log the success message
+        console.log(data.message);
         setIsClaimed(true); // Update the UI to reflect that the class has been claimed
         setEmail(''); // Clear the email input field
       } else {
