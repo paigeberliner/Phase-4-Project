@@ -88,11 +88,10 @@ class Review(db.Model):
     __tablename__ = 'reviews'
     
     id = db.Column(db.Integer, primary_key=True)
-    review = db.Column(db.String)
+    review = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     workout_class_id = db.Column(db.Integer, db.ForeignKey('workoutclasses.id'))
     
-    # Relationship mapping the review to related user and workout class
     user = db.relationship('User', back_populates="reviews")
     workout_class = db.relationship('WorkoutClass', back_populates="reviews")
 
@@ -101,5 +100,6 @@ class Review(db.Model):
             'id': self.id,
             'review': self.review,
             'user': self.user.first_name if self.user else None,
-            'workout_class': self.workout_class.class_name if self.workout_class else None
+            'workout_class': self.workout_class.class_name if self.workout_class else None,
+            'workout_class_date': self.workout_class.class_date if self.workout_class else None
         }

@@ -27,7 +27,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar/>
       <Form updateWorkoutClasses={updateWorkoutClasses} />
       {workoutClasses.map(workoutClass => (
         <Container

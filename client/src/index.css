@@ -8,7 +8,6 @@ body {
 }
 
 /* NavBar */
-/* NavBar */
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -50,6 +49,7 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .form-container h2 {
@@ -61,6 +61,7 @@ body {
 
 .form-group {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .form-group label {
@@ -71,12 +72,14 @@ body {
 }
 
 .form-group input {
-  width: 100%;
+  width: calc(100% - 24px);
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 1em;
   transition: border-color 0.3s ease;
+  margin: 0 auto;
+  display: block;
 }
 
 .form-group input:focus {
@@ -98,7 +101,6 @@ body {
   background-color: #0c2b43;
 }
 
-/* Class Tiles */
 /* Class Tiles */
 .classTile {
   background-color: #ffffff;
@@ -130,47 +132,6 @@ body {
 }
 
 /* Input and Buttons */
-.classTile {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.classTile:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.classTile h2 {
-  font-size: 1.25em;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-
-.classTile p {
-  margin: 4px 0;
-  font-size: 0.9em;
-}
-
-.classTile-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.classTile-cell {
-  flex: 1;
-  padding: 5px;
-}
-
-.classTile-cell strong {
-  display: block;
-}
-
-/* Claim and Delete Buttons */
 input[type="email"] {
   width: calc(100% - 24px);
   padding: 12px;
@@ -195,7 +156,6 @@ button {
   background-color: #007bff;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: px 0;
 }
 
 button:hover {
@@ -213,6 +173,7 @@ button:active {
   font-size: 1em;
   margin-top: 10px;
 }
+
 /* Profile Page */
 .profile-container {
   padding: 20px;
