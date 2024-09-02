@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# Remote library imports
 from flask import Flask, request, jsonify, make_response
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
@@ -8,112 +7,74 @@ from datetime import datetime
 from flask_cors import CORS
 
 # Local imports
-from config import app, db, api
-from models import User, WorkoutClass, Review
+from models import db, User, WorkoutClass, Review
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-#def create_app():
-    #app = Flask(__name__)
-    #CORS(app)
-    #return app
-
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
-migrate = Migrate(app, db)
 db.init_app(app)
-
+migrate = Migrate(app, db)
 api = Api(app)
 
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
 
-
 class UserResource(Resource):
     def get(self):
-        response_dict_list = [u.to_dict() for u in User.query.all()] 
-
-        response = make_response(
-            jsonify(response_dict_list),
-            200,
-        )
-        return response
+        users = User.query.all()
+        user_list = [user.to_dict() for user in users]
+        return user_list, 200
 
     def post(self):
         data = request.get_json()
         new_user = User(
-            email=data["email"],
+            email=data.get("email"),
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
-            created_at=data.get('created_at', datetime.utcnow())  # Set created_at to now if not provided
-            )
+            created_at=data.get('created_at', datetime.utcnow())
+        )
         db.session.add(new_user)
         db.session.commit()
+        return new_user.to_dict(), 201
 
-        response_dict = new_user.to_dict()
-
-        response = make_response(
-            jsonify(response_dict),
-            201,
-        )
-
-        return response
-
-api.add_resource(UserResource, '/users') 
-
+api.add_resource(UserResource, '/users')
 
 class ReviewResource(Resource):
     def get(self):
-        response_dict_list = [r.to_dict() for r in Review.query.all()] 
-
-        response = make_response(
-            jsonify(response_dict_list),
-            200,
-        )
-
-        return response
+        reviews = Review.query.all()
+        review_list = [review.to_dict() for review in reviews]
+        return review_list, 200
 
     def post(self):
         data = request.get_json()
-        new_review = Review(
-            review=data["review"],
-            user_id=data.get('user_id'), 
-            workout_class_id=data.get('workout_class_id')
+        try:
+            new_review = Review(
+                review=data["review"],
+                user_id=data.get('user_id'),
+                workoutclass_id=data.get('workoutclass_id')
             )
-
-        db.session.add(new_review)
-        db.session.commit()
-
-        response_dict = new_review.to_dict()
-
-        response = make_response(
-            jsonify(response_dict),
-            201,
-        )
-
-        return response
+            db.session.add(new_review)
+            db.session.commit()
+            return new_review.to_dict(), 201
+        except Exception as e:
+            return {"error": str(e)}, 400
 
 api.add_resource(ReviewResource, '/reviews')
 
 class WorkoutClassResource(Resource):
     def get(self):
-        response_dict_list = [w.to_dict() for w in WorkoutClass.query.all()]
-        response = make_response(
-            jsonify(response_dict_list),
-            200
-        )
-        return response
+        workout_classes = WorkoutClass.query.all()
+        workout_class_list = [w.to_dict() for w in workout_classes]
+        return workout_class_list, 200
     
     def post(self):
         data = request.get_json()
-        print(data)
         try:
-            #class_date_str = data.get('class_date')
-            #class_date = datetime.strftime(class_date_str,'%Y-%m-%d') if class_date_str else None
             class_time_str = data.get('class_time')
             class_time = datetime.strptime(class_time_str, "%H:%M") if class_time_str else None
 
@@ -125,44 +86,28 @@ class WorkoutClassResource(Resource):
                 class_date=data["class_date"],
                 class_time=class_time
             )
-
             db.session.add(new_workout_class)
             db.session.commit()
 
-            response_body = {
-                "id": new_workout_class.id,
-                "studio_name": new_workout_class.studio_name,
-                "studio_location": new_workout_class.studio_location,
-                "class_name": new_workout_class.class_name,
-                "class_duration": new_workout_class.class_duration,
-                "class_date": new_workout_class.class_date,
-                "class_time": new_workout_class.class_time.strftime("%H:%M") if new_workout_class.class_time else None,
-                "created_at": new_workout_class.created_at.isoformat() if new_workout_class.created_at else None
-            }
-            return make_response(
-                jsonify(response_body),
-                201
-            )
+            response_body = new_workout_class.to_dict()
+            return response_body, 201
         except Exception as e:
             return jsonify({"error": str(e)}), 400
 
     def delete(self, id):
-        workoutclass = WorkoutClass.query.filter(WorkoutClass.id == id).first()
-        if workoutclass:
-            db.session.delete(workoutclass)
+        workout_class = WorkoutClass.query.get(id)
+        if workout_class:
+            # Delete associated reviews first
+            reviews = Review.query.filter_by(workoutclass_id=id).all()
+            for review in reviews:
+                db.session.delete(review)
+        
+            # Then delete the workout class
+            db.session.delete(workout_class)
             db.session.commit()
-            response_dict = {"message": "Record successfully deleted"}
-            response = make_response(
-                jsonify(response_dict),
-                200
-            )
+            return {"message": "Record successfully deleted"}, 200
         else:
-            response_dict = {"error": "Class not found"}
-            response = make_response(
-                jsonify(response_dict),
-                404
-            )
-        return response
+            return {"error": "Class not found"}, 404
     
     def patch(self, id):
         data = request.get_json()
@@ -171,7 +116,7 @@ class WorkoutClassResource(Resource):
         if not email:
             return make_response(jsonify({"error": "Email is required to claim the class"}), 400)
 
-        workout_class = WorkoutClass.query.filter(WorkoutClass.id == id).first()
+        workout_class = WorkoutClass.query.get(id)
         if not workout_class:
             return make_response(jsonify({"error": "Class not found"}), 404)
 
@@ -185,26 +130,11 @@ class WorkoutClassResource(Resource):
         workout_class.user_claimed = user
         db.session.commit()
 
-        response_body = {
-            "id": workout_class.id,
-            "studio_name": workout_class.studio_name,
-            "studio_location": workout_class.studio_location,
-            "class_name": workout_class.class_name,
-            "class_duration": workout_class.class_duration,
-            "class_date": workout_class.class_date,
-            "class_time": workout_class.class_time.strftime("%H:%M") if workout_class.class_time else None,
-            "created_at": workout_class.created_at.isoformat() if workout_class.created_at else None,
-            "claimed_by": workout_class.user_claimed.email if workout_class.user_claimed else None
-        }
-
-        response = make_response(
-            jsonify(response_body),
-            200
-        )
-        return response
+        response_body = workout_class.to_dict()
+        response_body["claimed_by"] = workout_class.user_claimed.email if workout_class.user_claimed else None
+        return response_body, 200
 
 api.add_resource(WorkoutClassResource, '/workoutclasses', '/workoutclasses/<int:id>')
-
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -23,24 +23,25 @@ const ClassHistory = () => {
       <NavBar />
       <ul className="reviews-list">
         {reviews.map((review, index) => {
-          const classDate = new Date(review.workout_class_date);
-          //const today = new Date();
-          //today.setHours(0, 0, 0, 0); // Set today's date to midnight for accurate comparison
-
-          // Check if the class date is not null and is in the past
-          //if (review.workout_class_date && classDate < today) {
-            // Format the date to YYYY-MM-DD
-            const formattedDate = classDate.toISOString().split('T')[0];
-
-            return (
-              <li key={index} className="reviews-item">
-                <strong>{review.user} posted a {review.workout_class} Class on {formattedDate}:</strong> {review.review}
-              </li>
-            );
+          // Check if review.workout_class_date is a valid date
+          let formattedDate = '';
+          try {
+            const classDate = new Date(review.workout_class_date);
+            if (!isNaN(classDate.getTime())) { // Check if the date is valid
+              formattedDate = classDate.toISOString().split('T')[0];
+            } else {
+              formattedDate = 'Invalid date'; // Default message for invalid dates
+            }
+          } catch (error) {
+            formattedDate = 'Error parsing date'; // Error handling message
           }
-          //return null; // Do not render anything if the class date is null or in the future
-        //}
-      )}
+
+          return (
+            <li key={index} className="reviews-item">
+              <strong>{review.user} posted a {review.workout_class} Class:</strong> {review.review}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

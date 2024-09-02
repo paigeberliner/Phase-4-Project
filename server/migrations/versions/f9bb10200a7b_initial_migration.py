@@ -1,8 +1,8 @@
-"""empty message
+"""initial migration
 
-Revision ID: b99fc7620ddc
+Revision ID: f9bb10200a7b
 Revises: 
-Create Date: 2024-08-18 17:52:59.451408
+Create Date: 2024-09-02 17:51:01.777967
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b99fc7620ddc'
+revision = 'f9bb10200a7b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,24 +29,26 @@ def upgrade():
     )
     op.create_table('workoutclasses',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('studio_name', sa.String(), nullable=True),
-    sa.Column('studio_location', sa.String(), nullable=True),
-    sa.Column('class_name', sa.String(), nullable=True),
-    sa.Column('class_duration', sa.Integer(), nullable=True),
+    sa.Column('studio_name', sa.String(), nullable=False),
+    sa.Column('studio_location', sa.String(), nullable=False),
+    sa.Column('class_name', sa.String(), nullable=False),
+    sa.Column('class_duration', sa.Integer(), nullable=False),
     sa.Column('class_date', sa.String(), nullable=True),
     sa.Column('class_time', sa.DateTime(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('user_claimed_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_claimed_id'], ['users.id'], name=op.f('fk_workoutclasses_user_claimed_id_users')),
+    sa.ForeignKeyConstraint(['user_claimed_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('review', sa.String(), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('workout_class_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_reviews_user_id_users')),
-    sa.ForeignKeyConstraint(['workout_class_id'], ['workoutclasses.id'], name=op.f('fk_reviews_workout_class_id_workoutclasses')),
+    sa.Column('content', sa.String(), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('workoutclass_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['workoutclass_id'], ['workoutclasses.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

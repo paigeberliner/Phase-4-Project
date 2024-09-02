@@ -20,7 +20,7 @@ if __name__ == '__main__':
         db.session.commit()
 
         # Create an example of a reivew 
-        review = Review (review="I love this class, but have a conflict", user_id= 1, workout_class_id = 1)
+        review = Review (review="I love this class, but have a conflict", user_id= 1, workoutclass_id = 1)
         db.session.add(review)
         db.session.commit()
     
